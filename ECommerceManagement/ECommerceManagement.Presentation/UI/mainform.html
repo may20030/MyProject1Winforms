@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>E-Commerce Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    height: 100%;
+}
+
+/* Layout */
+body {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: #4f46e5;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar button {
+    margin-bottom: 12px;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #6366f1;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.sidebar button i {
+    margin-right: 10px;
+}
+
+.sidebar button:hover {
+    background-color: #4f46e5;
+}
+
+.sidebar .user-info {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Content area */
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f3f4f6;
+}
+
+.content h1 {
+    color: #1f2937;
+}
+
+.product-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-card button {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.product-card button:hover {
+    background-color: #059669;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 25px;
+    border-radius: 10px;
+    display: none;
+    color: white;
+    font-weight: bold;
+    z-index: 999;
+}
+.notification.success {
+    background-color: #16a34a;
+}
+.notification.error {
+    background-color: #dc2626;
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="user-info" id="user-info">Hello, Customer!</div>
+    <button onclick="navigate('products.html')"><i class="fas fa-box-open"></i>Products</button>
+    <button onclick="navigate('categories.html')"><i class="fas fa-tags"></i>Categories</button>
+    <button onclick="navigate('cart.html')"><i class="fas fa-shopping-cart"></i>Cart</button>
+    <button onclick="navigate('orders.html')"><i class="fas fa-clipboard-list"></i>Orders</button>
+    <button onclick="logout()"><i class="fas fa-right-from-bracket"></i>Logout</button>
+</div>
+
+<div class="content" id="content">
+    <h1>Welcome to E-Commerce Dashboard</h1>
+    <p>Select a section from the left menu to start shopping!</p>
+</div>
+
+<div class="notification" id="notification"></div>
+
+<script>
+// ============================
+// Navigation & Actions
+// ============================
+function navigate(page) {
+    window.chrome.webview.postMessage({ action: "navigate", page: page });
+}
+
+function addToCart(productId, quantity = 1) {
+    window.chrome.webview.postMessage({ action: "addToCart", productId: productId, quantity: quantity });
+}
+
+function updateCartItem(productId, quantity) {
+    window.chrome.webview.postMessage({ action: "updateCartItem", productId: productId, quantity: quantity });
+}
+
+function viewCart() {
+    navigate('cart.html');
+}
+
+function logout() {
+    window.chrome.webview.postMessage({ action: "logout" });
+}
+
+// ============================
+// Notification System
+// ============================
+function showNotification(message, type) {
+    const notif = document.getElementById('notification');
+    notif.innerText = message;
+    notif.className = 'notification ' + (type === 'success' ? 'success' : 'error');
+    notif.style.display = 'block';
+    setTimeout(() => { notif.style.display = 'none'; }, 2500);
+}
+
+// ============================
+// Receive messages from C# (optional)
+// ============================
+window.chrome.webview.addEventListener('message', event => {
+    const msg = event.data;
+    if(msg.action === 'showNotification') {
+        showNotification(msg.message, msg.type);
+    }
+});
+
+// ============================
+// Set Username dynamically
+// ============================
+function setUsername(name) {
+    document.getElementById('user-info').innerText = `Hello, ${name}!`;
+}
+</script>
+
+</body>
+</html>

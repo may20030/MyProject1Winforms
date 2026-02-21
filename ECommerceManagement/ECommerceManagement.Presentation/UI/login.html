@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    width: 320px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-card h2 {
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #667eea;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #667eea;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background: #5a67d8;
+}
+
+.signup-link {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.signup-link span {
+    color: #667eea;
+    cursor: pointer;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-card">
+    <h2>Welcome Back</h2>
+
+    <div class="input-group">
+        <input type="text" id="username" placeholder="Username">
+    </div>
+
+    <div class="input-group">
+        <input type="password" id="password" placeholder="Password">
+    </div>
+
+    <button onclick="login()">Login</button>
+
+    <div class="signup-link">
+        Don't have an account? 
+        <span onclick="openSignup()">Create one</span>
+    </div>
+</div>
+
+<script>
+function login() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    window.chrome.webview.postMessage({
+        action: "login",
+        username: username,
+        password: password
+    });
+}
+
+function openSignup() {
+    window.chrome.webview.postMessage({
+        action: "signup"
+    });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Orders</title>
+<style>
+body { font-family: 'Segoe UI', sans-serif; padding: 20px; }
+h1 { color: #333; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+th { background-color: #667eea; color: white; }
+button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5a67d8;
+    color: white;
+    cursor: pointer;
+}
+button:hover { background-color: #4c5ac1; }
+</style>
+</head>
+<body>
+<h1>Orders</h1>
+<table id="ordersTable">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- سيتم تعبئة الطلبات ديناميكيًا -->
+    </tbody>
+</table>
+<script>
+const orders = [
+    { id: 1, status: "Processing", date: "2026-02-20" },
+    { id: 2, status: "Shipped", date: "2026-02-21" }
+];
+const tbody = document.getElementById("ordersTable").querySelector("tbody");
+orders.forEach(o => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${o.id}</td>
+                    <td>${o.status}</td>
+                    <td>${o.date}</td>
+                    <td><button onclick="viewOrder(${o.id})">View</button></td>`;
+    tbody.appendChild(tr);
+});
+
+function viewOrder(orderId) {
+    window.chrome.webview.postMessage({ action: "viewOrder", orderId: orderId });
+}
+</script>
+</body>
+</html>

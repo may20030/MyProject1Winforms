@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="UI\cart.html" />
+    <None Remove="UI\login.html" />
+    <None Remove="UI\mainform.html" />
+    <None Remove="UI\products.html" />
+    <None Remove="UI\signup.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="UI\cart.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\login.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\mainform.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\products.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="UI\signup.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3800.47" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ECommerceManagement.Application\ECommerceManagement.Application.csproj" />
+    <ProjectReference Include="..\ECommerceManagement.Infrastructure\ECommerceManagement.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

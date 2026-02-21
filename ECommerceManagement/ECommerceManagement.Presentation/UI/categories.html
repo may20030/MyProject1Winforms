@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Categories</title>
+<style>
+body { font-family: 'Segoe UI', sans-serif; padding: 20px; }
+h1 { color: #333; }
+ul { list-style: none; padding: 0; }
+li {
+    background-color: #667eea;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+li:hover { background-color: #5a67d8; }
+</style>
+</head>
+<body>
+<h1>Categories</h1>
+<ul id="categoryList">
+    <li>Electronics</li>
+    <li>Books</li>
+</ul>
+<script>
+const categories = ["Electronics", "Books"];
+const ul = document.getElementById("categoryList");
+ul.innerHTML = "";
+categories.forEach(c => {
+    const li = document.createElement("li");
+    li.textContent = c;
+    li.onclick = () => window.chrome.webview.postMessage({ action: "categoryClick", category: c });
+    ul.appendChild(li);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cart</title>
+<style>
+body { font-family: 'Segoe UI', sans-serif; padding: 20px; }
+h1 { color: #333; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+th { background-color: #667eea; color: white; }
+button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #5a67d8;
+    color: white;
+    cursor: pointer;
+}
+button:hover { background-color: #4c5ac1; }
+</style>
+</head>
+<body>
+<h1>Cart</h1>
+<table id="cartTable">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- سيتم تعبئته من C# لاحقًا -->
+    </tbody>
+</table>
+<script>
+const cartItems = [
+    { name: "Laptop", quantity: 1, price: 1500 },
+    { name: "Smartphone", quantity: 2, price: 1600 }
+];
+const tbody = document.getElementById("cartTable").querySelector("tbody");
+cartItems.forEach(item => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>$${item.price}</td>
+                    <td><button onclick="removeItem('${item.name}')">Remove</button></td>`;
+    tbody.appendChild(tr);
+});
+
+function removeItem(productName) {
+    window.chrome.webview.postMessage({ action: "removeFromCart", product: productName });
+}
+</script>
+</body>
+</html>
